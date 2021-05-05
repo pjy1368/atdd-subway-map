@@ -36,8 +36,8 @@ public class SectionAcceptanceTest extends AcceptanceTest {
             .extract();
 
         Map<String, Object> params2 = new HashMap<>();
-        params2.put("downStationId", 4);
-        params2.put("upStationId", 2);
+        params2.put("upStationId", 2L);
+        params2.put("downStationId", 4L);
         params2.put("distance", 10);
 
         // when
@@ -54,8 +54,8 @@ public class SectionAcceptanceTest extends AcceptanceTest {
         assertThat(response2.header("Location")).isNotBlank();
         assertThat(response2.body().as(SectionResponse.class).getId())
             .isEqualTo(Long.parseLong(response2.header("Location").split("/")[4]));
-        assertThat(response2.body().as(SectionResponse.class).getDownStationId()).isEqualTo(4L);
         assertThat(response2.body().as(SectionResponse.class).getUpStationId()).isEqualTo(2L);
+        assertThat(response2.body().as(SectionResponse.class).getDownStationId()).isEqualTo(4L);
         assertThat(response2.body().as(SectionResponse.class).getDistance()).isEqualTo(10);
     }
 }

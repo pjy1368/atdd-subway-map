@@ -5,7 +5,9 @@ import java.sql.Statement;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class SectionDao {
 
     private final JdbcTemplate jdbcTemplate;

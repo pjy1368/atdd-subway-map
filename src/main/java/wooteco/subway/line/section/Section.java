@@ -7,6 +7,10 @@ public class Section {
     private final Long downStationId;
     private final int distance;
 
+    public Section(Long lineId, Long upStationId, Long downStationId, int distance) {
+        this(null, lineId, upStationId, downStationId, distance);
+    }
+
     public Section(Long id, Long lineId, Long upStationId, Long downStationId, int distance) {
         this.id = id;
         this.lineId = lineId;
