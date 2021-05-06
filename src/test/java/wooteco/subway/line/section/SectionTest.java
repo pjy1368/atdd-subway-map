@@ -2,33 +2,21 @@ package wooteco.subway.line.section;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
+import org.junit.jupiter.api.Test;
 
-public class Sections {
-    private final List<Section> sectionGroup;
+public class SectionTest {
 
-    public Sections(final List<Section> sectionGroup) {
-        this.sectionGroup = new ArrayList<>(sectionGroup);
-        sort();
-    }
-
-    public List<Long> distinctStationIds() {
-        final Set<Long> ids = new HashSet<>();
-        for (Section section : sectionGroup) {
-            ids.add(section.getUpStationId());
-            ids.add(section.getDownStationId());
-        }
-        return new ArrayList<>(ids);
-    }
-
-    private void sort() {
-        if (sectionGroup.size() < 2) {
-            return;
-        }
+    @Test
+    void sort() {
+        // 기댓값은 3 2 1 4
+        final List<Section> sectionGroup  = new ArrayList<>();
+        sectionGroup.add(new Section(1L, 3L, 2L, 10));
+        sectionGroup.add(new Section(1L, 4L, 5L, 5));
+        sectionGroup.add(new Section(1L, 2L, 1L, 6));
+        sectionGroup.add(new Section(1L, 1L, 4L, 8));
 
         final Map<Long, Integer> map = new HashMap<>();
         for (final Section section : sectionGroup) {
@@ -65,9 +53,6 @@ public class Sections {
             from = nextSection.get();
             result.add(from);
         }
-    }
-
-    public List<Section> toList() {
-        return sectionGroup;
+        result.forEach(section -> System.out.println(section.getUpStationId() + "-" + section.getDownStationId()));
     }
 }
