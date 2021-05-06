@@ -138,6 +138,26 @@ class LineAcceptanceTest extends AcceptanceTest {
     @DisplayName("노선을 조회한다.")
     @Test
     void showLine() {
+        Map<String, String> params1 = new HashMap<>();
+        params1.put("name", "강남역");
+        ExtractableResponse<Response> createResponse1 = RestAssured.given().log().all()
+            .body(params1)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .post("/stations")
+            .then().log().all()
+            .extract();
+
+        Map<String, String> params2 = new HashMap<>();
+        params2.put("name", "역삼역");
+        ExtractableResponse<Response> createResponse2 = RestAssured.given().log().all()
+            .body(params2)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .post("/stations")
+            .then().log().all()
+            .extract();
+
         Map<String, Object> params = new HashMap<>();
         params.put("name", "2호선");
         params.put("color", "grey darken-1");

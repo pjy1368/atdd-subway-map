@@ -15,10 +15,6 @@ public class SectionService {
     }
 
     public SectionResponse createSection(final long lineId, final SectionRequest sectionRequest) {
-        final Long upStationId = sectionRequest.getUpStationId();
-        final Long downStationId = sectionRequest.getDownStationId();
-        final int distance = sectionRequest.getDistance();
-
         final Section section = sectionDao.save(sectionRequest.toEntity(lineId));
         return SectionResponse.from(section);
     }
