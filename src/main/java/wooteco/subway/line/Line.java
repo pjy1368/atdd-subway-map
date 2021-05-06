@@ -37,6 +37,10 @@ public class Line {
         this.stations = stations;
     }
 
+    public void addStations(final List<Station> stations) {
+        this.stations.addStations(stations);
+    }
+
     public Long getId() {
         return id;
     }
@@ -55,9 +59,5 @@ public class Line {
 
     public Stations getStations() {
         return stations;
-    }
-
-    public void addStation(final Station upStation, final Station downStation) {
-        stations.addStation(upStation, downStation);
     }
 }

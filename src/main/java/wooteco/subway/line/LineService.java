@@ -8,6 +8,8 @@ import wooteco.subway.exception.DataNotFoundException;
 import wooteco.subway.exception.DuplicatedNameException;
 import wooteco.subway.line.section.SectionRequest;
 import wooteco.subway.line.section.SectionService;
+import wooteco.subway.line.section.Sections;
+import wooteco.subway.station.Station;
 import wooteco.subway.station.StationService;
 
 @Service
@@ -53,18 +55,12 @@ public class LineService {
     }
 
     public LineResponse findLine(final Long id) {
-        final Line line = lineDao.findById(id).orElseThrow(() -> {
-            throw new DataNotFoundException("해당 Id의 노선이 없습니다.");
-        });
-        // Section table
-        // findSectionsById()를 통해 특정 line_id에 속하는 Section들을 가져온다.
-        // (6, 4) (1, 2) (2, 4)를
-        // (1, 2) (2, 4) (4, 6)로 조립해야
-        // 상행: 1, 하행 : 6 판단 가능.
-
-        // Line JOIN Section을 통해 upStationId, downStationId를 가져올 수 있다.
-        // SELECT UP_STATION_ID, DOWN_STATION_ID FROM SECTION LEFT JOIN LINE ON SECTION.LINE_ID = LINE.ID
-        // line.addStation(stationService.findById(upStationId), stationService.findById(downStationId))
+        final Line line = lineDao.findById(id).orElseThrow(() -> new DataNotFoundException("해당 Id의 노선이 없습니다."));
+        final Sections sections = sectionService.findSectionsByLineId(id);
+        final List<Station> stations = sections.distinctStationIds().stream()
+            .map(stationService::findById)
+            .collect(Collectors.toList());
+        line.addStations(stations);
         return LineResponse.from(line);
     }
 
