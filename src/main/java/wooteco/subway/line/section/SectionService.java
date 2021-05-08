@@ -12,6 +12,15 @@ public class SectionService {
     }
 
     public SectionResponse createSection(final long lineId, final SectionRequest sectionRequest) {
+        final Sections sections = findSectionsByLineId(lineId);
+        final Long upStationId = sectionRequest.getUpStationId();
+        final Long downStationId = sectionRequest.getDownStationId();
+        if (sections.containsStation(upStationId) && sections.containsStation(downStationId)) {
+            throw new RuntimeException("상행역과 하행역이 이미 노선에 모두 등록되어 있습니다.");
+        }
+        if (!sections.containsStation(upStationId) && !sections.containsStation(downStationId)) {
+            throw new RuntimeException("상행역과 하행역 둘 다 포함되어있지 않습니다.");
+        }
         final Section section = sectionDao.save(sectionRequest.toEntity(lineId));
         return SectionResponse.from(section);
     }

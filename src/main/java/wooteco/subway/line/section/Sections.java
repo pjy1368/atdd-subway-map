@@ -82,6 +82,10 @@ public class Sections {
         return candidates;
     }
 
+    public boolean containsStation(final Long stationId) {
+        return distinctStationIds().contains(stationId);
+    }
+
     public List<Section> toList() {
         return sectionGroup;
     }
