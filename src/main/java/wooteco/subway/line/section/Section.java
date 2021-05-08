@@ -9,6 +9,10 @@ public class Section {
     private final Long downStationId;
     private final int distance;
 
+    public Section(Long upStationId, Long downStationId, int distance) {
+        this(null, upStationId, downStationId, distance);
+    }
+
     public Section(Long lineId, Long upStationId, Long downStationId, int distance) {
         this(null, lineId, upStationId, downStationId, distance);
     }
@@ -20,6 +24,7 @@ public class Section {
         this.downStationId = downStationId;
         this.distance = distance;
     }
+
 
     public Long getId() {
         return id;
@@ -58,5 +63,16 @@ public class Section {
     @Override
     public int hashCode() {
         return Objects.hash(id, lineId, upStationId, downStationId, distance);
+    }
+
+    @Override
+    public String toString() {
+        return "Section{" +
+            "id=" + id +
+            ", lineId=" + lineId +
+            ", upStationId=" + upStationId +
+            ", downStationId=" + downStationId +
+            ", distance=" + distance +
+            '}';
     }
 }

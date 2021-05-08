@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import wooteco.subway.line.Line;
 
 @Repository
 public class SectionDao {
@@ -46,5 +47,11 @@ public class SectionDao {
     public List<Section> findByLineId(final Long lineId) {
         final String sql = "SELECT * FROM section WHERE line_id = ?";
         return jdbcTemplate.query(sql, sectionRowMapper, lineId);
+    }
+
+    public void update(final Section updatedSection) {
+        final String sql = "UPDATE section SET up_station_id = ?, down_station_id = ?, distance = ? WHERE id = ?";
+        jdbcTemplate.update(sql, updatedSection.getUpStationId(),
+            updatedSection.getDownStationId(), updatedSection.getDistance(), updatedSection.getId());
     }
 }

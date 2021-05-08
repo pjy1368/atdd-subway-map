@@ -104,4 +104,18 @@ public class Sections {
     public List<Section> toList() {
         return sectionGroup;
     }
+
+    public Section findExistentUpStation(long existentStationId) {
+        return sectionGroup.stream()
+            .filter(section -> section.getUpStationId() == existentStationId)
+            .findAny()
+            .get();
+    }
+
+    public Section findExistentDownStation(long existentStationId) {
+        return sectionGroup.stream()
+            .filter(section -> section.getDownStationId() == existentStationId)
+            .findAny()
+            .get();
+    }
 }
