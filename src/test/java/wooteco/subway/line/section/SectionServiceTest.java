@@ -1,5 +1,6 @@
 package wooteco.subway.line.section;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -57,5 +58,25 @@ class SectionServiceTest {
             .isInstanceOf(RuntimeException.class);
 
         verify(sectionDao, times(1)).findByLineId(lineId);
+    }
+
+    @DisplayName("새로운 구간이 종점 앞에 위치할 수 있는지 확인한다.")
+    @Test
+    void createSection_end_point() {
+        final Long lineId = 1L;
+        final Long upStationId = 3L;
+        final Long downStationId = 2L;
+        final Section section = new Section(lineId, upStationId, downStationId, 10);
+        given(sectionDao.findByLineId(lineId)).willReturn(Collections.singletonList(section));
+
+        final Section expected = new Section(2L, 5L, 3L, 10);
+        final SectionRequest sectionRequest = new SectionRequest(5L, 3L, 10);
+        given(sectionDao.save(sectionRequest.toEntity(lineId))).willReturn(expected);
+
+        assertThat(sectionService.createSection(lineId, sectionRequest).getUpStationId())
+            .isEqualTo(expected.getUpStationId());
+
+        verify(sectionDao, times(1)).findByLineId(lineId);
+        verify(sectionDao, times(1)).save(sectionRequest.toEntity(lineId));
     }
 }
